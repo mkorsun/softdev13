@@ -17,10 +17,10 @@ def root():
 
 @app.route('/armory', methods = ['GET','POST'])
 def armory():
-    
+    r=requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/hive/", headers=HEADERS);
+    dict=r.json()
 
-    
-
+    return render_template("armory.html", info=dict)
 
 if __name__ == "__main__":
     app.debug = True
