@@ -17,10 +17,19 @@ def root():
 
 @app.route('/armory', methods = ['GET','POST'])
 def armory():
-    r=requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/hive/", headers=HEADERS);
-    dict=r.json()
+    r=requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/fire/", headers=HEADERS);
+    dict=r.json()#Automaticaly runs json.load() onto r, whish is json formatted text
+    items=dict['Response']['results']['results']
+    for each in items:
+        del each['entityType']
+        del each['hash']
+        del each['weight']
+    dispop=[]
+    for each in items:
+        dispop.append(each['displayProperties'])
+  
 
-    return render_template("armory.html", info=dict)
+    return render_template("armory.html", list=dispop)
 
 if __name__ == "__main__":
     app.debug = True
