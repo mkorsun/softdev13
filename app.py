@@ -17,7 +17,10 @@ def root():
 
 @app.route('/armory', methods = ['GET','POST'])
 def armory():
-    r=requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/fire/", headers=HEADERS);
+    if request.args.get('search')=='Submit':
+        r=(requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/" + request.args.get('lookup'), headers=HEADERS))
+    else:                         
+        r=requests.get("http://www.bungie.net/Platform/Destiny2/Armory/Search/DestinyInventoryItemDefinition/ /", headers=HEADERS);
     dict=r.json()#Automaticaly runs json.load() onto r, whish is json formatted text
     items=dict['Response']['results']['results']
     for each in items:
